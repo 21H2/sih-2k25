@@ -78,22 +78,66 @@ Your app will be live at: `https://your-medical-bot-name.herokuapp.com`
 
 ## 🔥 OPTION B: RAILWAY DEPLOYMENT (MODERN ALTERNATIVE)
 
-### 1. Create Railway Account
-- Go to [railway.app](https://railway.app)
-- Sign up with GitHub
+### Method 1: Railway CLI (Recommended)
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
 
-### 2. Deploy from GitHub
+# Run deployment script
+./deploy_railway.sh
+```
+
+### Method 2: GitHub Integration
 - Push your code to GitHub repository
+- Go to [railway.app](https://railway.app) and sign up
 - Connect Railway to your GitHub repo
+- Set environment variables in Railway dashboard
 - Railway will auto-deploy
 
 ### 3. Set Environment Variables
 - In Railway dashboard → Variables
-- Add your Twilio credentials
+- Add your Twilio credentials:
+  - `TWILIO_ACCOUNT_SID`
+  - `TWILIO_AUTH_TOKEN`
+  - `TWILIO_PHONE_NUMBER=whatsapp:+14155238886`
 
-### 4. Get Your URL
-- Railway provides automatic HTTPS URL
-- Use this for Twilio webhook
+### 4. Troubleshooting Railway Issues
+If you get "Error creating build plan with Railpack":
+
+**Option A: Use Render instead (more reliable)**
+```bash
+# Deploy to Render
+git push origin main
+# Go to render.com and connect your repo
+```
+
+**Option B: Fix Railway configuration**
+- Ensure `nixpacks.toml` exists in your backend folder
+- Check that `requirements.txt` is valid
+- Try deploying with Railway CLI instead of GitHub integration
+
+---
+
+## 🚀 OPTION C: RENDER DEPLOYMENT (MOST RELIABLE)
+
+### 1. Create Render Account
+- Go to [render.com](https://render.com)
+- Sign up with GitHub (free tier available)
+
+### 2. Deploy from GitHub
+- Push code to GitHub
+- Connect Render to your repository
+- Render auto-detects Python and uses `render.yaml`
+
+### 3. Set Environment Variables
+- In Render dashboard → Environment
+- Add Twilio credentials
+
+### 4. Benefits
+- More reliable than Railway
+- Better error messages
+- Automatic HTTPS
+- Good free tier
 
 ---
 
@@ -195,4 +239,4 @@ If you get stuck:
 3. Test endpoints individually
 4. Verify all environment variables
 
-The sandbox is perfect for testing and personal use. Only upgrade to business WhatsApp if you need it for a real business with many users.
+The sandbox is perfect for testing and personal use. Only upgrade to business WhatsApp if you need it for a real business with many users.Create a multilingual AI chatbot to educate rural and semi-urban populations about preventive healthcare, disease symptoms, and vaccination schedules. The chatbot should integrate with government health databases and provide real-time alerts for outbreaks.

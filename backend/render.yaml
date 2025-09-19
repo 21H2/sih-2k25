@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: whatsapp-medical-chatbot
+    env: python
+    buildCommand: "pip install -r requirements.txt && python extract_model.py"
+    startCommand: "gunicorn whatsapp_bot:app --bind 0.0.0.0:$PORT"
+    plan: free
+    healthCheckPath: /health
+    envVars:
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        value: whatsapp:+14155238886

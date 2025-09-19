@@ -9,12 +9,21 @@
 ```
 That's it! The script handles everything.
 
-### Option 2: Railway (Modern Alternative)
+### Option 2: Railway (If Heroku doesn't work)
+```bash
+# Install Railway CLI
+npm install -g @railway/cli
+
+# Run deployment script
+./deploy_railway.sh
+```
+
+### Option 3: Render (Most Reliable Alternative)
 1. Push code to GitHub
-2. Go to [railway.app](https://railway.app)
+2. Go to [render.com](https://render.com)
 3. Connect GitHub repo
-4. Add environment variables in Railway dashboard
-5. Deploy automatically
+4. Add environment variables in Render dashboard
+5. Deploy automatically (uses render.yaml)
 
 ---
 
