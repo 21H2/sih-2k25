@@ -14,6 +14,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.ensemble import RandomForestClassifier
 import re
+from llm_integration import LLMManager
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -25,6 +26,8 @@ class MedicalChatbot:
     def __init__(self):
         self.model = None
         self.vectorizer = None
+        self.llm_manager = LLMManager()
+        self.use_llm = os.getenv('USE_LLM', 'false').lower() == 'true'
         self.load_model()
         
     def load_model(self):
@@ -51,6 +54,18 @@ class MedicalChatbot:
     
     def get_medical_advice(self, user_message):
         """Generate medical advice based on user input"""
+        
+        # Try LLM first if enabled and available
+        if self.use_llm and self.llm_manager.is_available():
+            try:
+                llm_response = self.llm_manager.generate_response(user_message)
+                if llm_response:
+                    logger.info("Using LLM response")
+                    return llm_response
+            except Exception as e:
+                logger.error(f"LLM error, falling back to traditional model: {e}")
+        
+        # Fallback to traditional RandomForest model
         if not self.model or not self.vectorizer:
             return "I'm sorry, the medical AI is currently unavailable. Please try again later."
         
@@ -67,6 +82,7 @@ class MedicalChatbot:
             # Add disclaimer to medical advice
             disclaimer = "\n\n⚠️ DISCLAIMER: This is AI-generated advice for informational purposes only. Please consult a qualified healthcare professional for proper medical diagnosis and treatment."
             
+            logger.info("Using traditional RandomForest model")
             return f"{prediction}{disclaimer}"
             
         except Exception as e:
